@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lucid Horizon — Token Launch Radar</title>
+<link rel="stylesheet" href="app.css">
+<script src="../data.js"></script>
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <div class="mark">LH</div>
+    <div>
+      <h1>Lucid Horizon</h1>
+      <p class="tag">Token Launch Radar — which pre-token protocol is worth farming next, and what to do about it.</p>
+    </div>
+  </div>
+  <dl class="stats" id="stats"></dl>
+</header>
+
+<main>
+  <section class="controls" aria-label="Filter the board">
+    <input id="q" type="search" placeholder="Search a protocol…" autocomplete="off">
+    <select id="category" aria-label="Category"><option value="">All categories</option></select>
+    <select id="chain" aria-label="Chain"><option value="">All chains</option></select>
+    <label class="check"><input id="watchlist" type="checkbox"> Watchlist only</label>
+    <select id="sort" aria-label="Sort by">
+      <option value="value">Sort: implied value</option>
+      <option value="tvl">Sort: TVL</option>
+      <option value="growth">Sort: 7-day change</option>
+      <option value="age">Sort: oldest first</option>
+      <option value="name">Sort: name A–Z</option>
+    </select>
+  </section>
+
+  <p class="count" id="count"></p>
+
+  <section class="board-wrap">
+    <table class="board">
+      <thead>
+        <tr>
+          <th class="num">#</th>
+          <th>Protocol</th>
+          <th>Category</th>
+          <th>Chains</th>
+          <th class="num">TVL</th>
+          <th class="num">7d</th>
+          <th class="num">Age</th>
+          <th class="num">Implied value</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </section>
+
+  <section class="detail" id="detail" hidden>
+    <button class="back" id="back" type="button">← Back to the board</button>
+    <div id="detail-body"></div>
+  </section>
+
+  <section class="launched">
+    <h2>Already trading — not a launch</h2>
+    <p class="note">These protocols already record a token, so they are not on the board. They are shown apart so a reader never confuses a live token with a launch that has not happened yet.</p>
+    <table class="board small">
+      <thead>
+        <tr><th>Protocol</th><th>Category</th><th class="num">TVL</th><th class="num">Token market cap</th></tr>
+      </thead>
+      <tbody id="launched-rows"></tbody>
+    </table>
+  </section>
+
+  <section class="method">
+    <h2>How the value is worked out</h2>
+    <p><strong>Implied value = TVL × 0.30 × growth × maturity × chain × category.</strong> Every figure comes from the snapshot itself: the protocol's TVL, its seven-day TVL change, and how long it has run with no token. No name is hardcoded anywhere — the same formula ranks all 758 protocols, and the board keeps the ones that record no token.</p>
+    <ul>
+      <li><strong>Growth:</strong> the 7-day change, clamped to −50…+150%. A rise is rewarded at 0.6 per point; a fall is penalised at 1.2 per point.</li>
+      <li><strong>Maturity:</strong> 0.70 for a protocol listed yesterday, rising linearly to 1.00 at three years. A protocol that has run for years with no token has a deeper base for a token to land on.</li>
+      <li><strong>Chain:</strong> the best chain it runs on, up to 1.10 for Ethereum. A token needs somewhere liquid to trade.</li>
+      <li><strong>Category:</strong> what a token can claim of the TVL — a direct fee (lending, exchanges, real-world assets) scores above a thin slice (curators and allocators).</li>
+    </ul>
+    <p class="note">“Records no token” is a statement about DefiLlama's record, never a claim that the protocol has no token. A protocol on the watchlist may still have a token its record does not carry. The watchlist is a floor, never a ceiling: the board also ranks 158 protocols below it. This radar does not predict whether or when a token is issued, and an implied value is this entry's own claim.</p>
+  </section>
+</main>
+
+<footer>
+  <p>Lucid Horizon radar-3 · Data: DefiLlama snapshot, sealed 2026-11-14 · Built for the make.fun token-radar-01 bounty.</p>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
